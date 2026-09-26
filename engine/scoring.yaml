@@ -1,0 +1,28 @@
+weights:
+  service_discovery: 10
+  http_probe: 15
+  ssh_failed_login: 25
+  ftp_login_attempt: 20
+  db_connection_attempt: 20
+  ssh_successful_login: 70
+  command_execution: 90
+  credential_access: 100
+  file_access: 100
+
+caps:
+  service_discovery: 3
+  http_probe: 3
+  ssh_failed_login: 3
+  ftp_login_attempt: 3
+  db_connection_attempt: 3
+  ssh_successful_login: 1
+  command_execution: 5
+  credential_access: 1
+  file_access: 1
+
+sequence_bonus: 40
+
+thresholds:
+  informational: 30
+  medium: 70
+  high: 140

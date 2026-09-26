@@ -1,0 +1,4 @@
+{"src_host": "10.10.10.99", "src_port": 41000, "dst_port": 2222, "logtype": 5000, "logdata": {"USERNAME": "root", "PASSWORD": "toor"}}
+{"src_host": "10.10.10.99", "src_port": 41001, "dst_port": 2222, "logtype": 5000, "logdata": {"USERNAME": "admin", "PASSWORD": "admin"}}
+{"src_host": "10.10.10.99", "src_port": 41002, "dst_port": 2222, "logtype": 6000, "logdata": {"COMMAND": "whoami"}}
+{"src_host": "10.10.10.99", "src_port": 41003, "dst_port": 8080, "logtype": 2000, "logdata": {"PATH": "/login"}}

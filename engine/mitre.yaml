@@ -1,0 +1,11 @@
+# Small, accurate subset — not the full ATT&CK framework.
+mapping:
+  service_discovery:      { id: T1046, name: "Network Service Discovery" }
+  http_probe:             { id: T1046, name: "Network Service Discovery" }
+  ssh_failed_login:       { id: T1110, name: "Brute Force" }
+  ftp_login_attempt:      { id: T1110, name: "Brute Force" }
+  db_connection_attempt:  { id: T1110, name: "Brute Force" }
+  ssh_successful_login:   { id: T1078, name: "Valid Accounts" }
+  command_execution:      { id: T1059, name: "Command and Scripting Interpreter" }
+  credential_access:      { id: T1078, name: "Valid Accounts" }
+  file_access:            { id: T1083, name: "File and Directory Discovery" }

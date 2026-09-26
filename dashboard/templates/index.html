@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WisdomNet — Analyst Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f1115; color: #e6e6e6;
+           margin: 0; padding: 24px; }
+    h1 { margin: 0 0 4px 0; font-size: 22px; }
+    .tagline { color: #8a8f99; margin-bottom: 24px; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 16px; }
+    .card { background: #171a21; border: 1px solid #23262e; border-radius: 8px;
+            padding: 16px; }
+    .card h2 { margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase;
+               letter-spacing: 0.06em; color: #8a8f99; }
+    .sev-Critical { color: #ff5b5b; font-weight: 600; }
+    .sev-High     { color: #ff9a3c; font-weight: 600; }
+    .sev-Medium   { color: #ffd93c; }
+    .sev-Informational { color: #7ec8ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    td, th { padding: 6px 4px; text-align: left; border-bottom: 1px solid #23262e; }
+    th { color: #8a8f99; font-weight: 500; font-size: 11px;
+         text-transform: uppercase; }
+    .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+    ul { margin: 4px 0; padding-left: 18px; }
+    li { margin: 4px 0; font-size: 13px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px;
+             background: #23262e; font-size: 11px; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <h1>WisdomNet</h1>
+  <div class="tagline">Autonomous Deception-Based Early Warning · Analyst Dashboard</div>
+
+  {% if not incidents %}
+    <div class="card"><h2>No incidents</h2>
+      <p>No attacker activity recorded yet.</p></div>
+  {% else %}
+
+  <div class="grid">
+
+    <!-- Panel 1: Active Incidents -->
+    <div class="card">
+      <h2>Active Incidents</h2>
+      <table>
+        <tr><th>Source IP</th><th>State</th><th>Score</th><th>Severity</th></tr>
+        {% for i in incidents %}
+        <tr>
+          <td class="mono">{{ i.source_ip }}</td>
+          <td class="mono">{{ i.state }}</td>
+          <td class="mono">{{ i.score }}</td>
+          <td class="sev-{{ i.severity }}">{{ i.severity }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <!-- Panel 2: Targeted Services -->
+    <div class="card">
+      <h2>Targeted Services</h2>
+      <ul>
+        {% for i in incidents %}
+          {% for s in i.services %}
+            <li><span class="mono">{{ s }}</span>
+                <span class="badge">{{ i.source_ip }}</span></li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Panel 3: Event Breakdown -->
+    <div class="card">
+      <h2>Event Breakdown</h2>
+      {% for i in incidents %}
+        <div style="margin-bottom:10px">
+          <div class="mono" style="margin-bottom:4px">{{ i.source_ip }}
+            <span class="sev-{{ i.severity }}">({{ i.severity }})</span></div>
+          <ul>
+            {% for et, count in i.event_types.items() %}
+              <li>{{ et }} <span class="badge">×{{ count }}</span></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Panel 4: MITRE ATT&CK Techniques -->
+    <div class="card">
+      <h2>MITRE ATT&CK Techniques</h2>
+      <ul>
+        {% for i in incidents %}
+          {% for t in i.techniques %}
+            <li><span class="mono">{{ t }}</span>
+                <span class="badge">{{ i.source_ip }}</span></li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Panel 5: Recommended Response -->
+    <div class="card">
+      <h2>Recommended Response</h2>
+      {% for i in incidents %}
+        <div style="margin-bottom:10px">
+          <div class="sev-{{ i.severity }}" style="margin-bottom:4px">
+            {{ i.severity }} — {{ i.source_ip }}
+          </div>
+          <ul>
+            {% for step in recommended[i.severity] %}
+              <li>{{ step }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  {% endif %}
+</body>
+</html>

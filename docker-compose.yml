@@ -1,0 +1,13 @@
+services:
+  opencanary:
+    image: thinkst/opencanary:latest
+    container_name: wisdomnet-opencanary
+    volumes:
+      - ./sensor/opencanary.conf:/etc/opencanaryd/opencanary.conf:ro
+      - ./logs:/var/log/opencanary
+    ports:
+      - "2222:2222"
+      - "2121:2121"
+      - "8080:8080"
+      - "3306:3306"
+    restart: unless-stopped
